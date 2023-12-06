@@ -1,0 +1,57 @@
+cabal-version:      2.4
+name:               aoc
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             Frank Mousset
+
+-- A copyright notice.
+-- copyright:
+-- category:
+-- extra-source-files: CHANGELOG.md
+
+executable aoc01
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text
+    hs-source-dirs:   aoc01
+    default-language: GHC2021
+
+executable aoc02
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, parsec
+    hs-source-dirs:   aoc02
+    default-language: GHC2021
+
+executable aoc03
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, parsec, containers
+    hs-source-dirs:   aoc03
+    default-language: GHC2021
+
+executable aoc04
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, parsec, containers
+    hs-source-dirs:   aoc04
+    default-language: GHC2021
+
+executable aoc05
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, parsec
+    hs-source-dirs:   aoc05
+    default-language: GHC2021
+
+executable aoc06
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, parsec
+    hs-source-dirs:   aoc06
+    default-language: GHC2021
