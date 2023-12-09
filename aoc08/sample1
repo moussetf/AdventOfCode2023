@@ -1,7 +1,7 @@
 RL
 
-BBB = (DDD, EEE)
 AAA = (BBB, CCC)
+BBB = (DDD, EEE)
 CCC = (ZZZ, GGG)
 DDD = (DDD, DDD)
 EEE = (EEE, EEE)
