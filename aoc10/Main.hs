@@ -16,10 +16,9 @@ type Pos = (Int, Int)
 type Matrix a = Map Pos a
 
 parse :: T.Text -> Matrix Char
-parse text = M.fromList $ concat pairs
+parse text = M.fromList $ index2d (lines $ T.unpack text)
   where
-    ls = T.unpack <$> T.lines text
-    pairs = zipWith (\a -> map (\(b, t) -> ((a, b), t))) [0 ..] (zip [0 ..] <$> ls)
+    index2d xs = concat (zipWith (\a -> map (\(b, t) -> ((a, b), t))) [0 ..] (zip [0 ..] <$> xs))
 
 loop :: Matrix Char -> [Pos]
 loop m = start : unfoldr generator (start, mempty)
