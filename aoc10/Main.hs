@@ -11,22 +11,24 @@ import Data.Text qualified as T
 import Data.Text.IO qualified as T
 import System.Environment (getArgs)
 
-type Node = (Int, Int)
+type Pos = (Int, Int)
 
-parse :: T.Text -> Map Node Char
+type Matrix a = Map Pos a
+
+parse :: T.Text -> Matrix Char
 parse text = M.fromList $ concat pairs
   where
     ls = T.unpack <$> T.lines text
     pairs = zipWith (\a -> map (\(b, t) -> ((a, b), t))) [0 ..] (zip [0 ..] <$> ls)
 
-loop :: Map Node Char -> [Node]
+loop :: Matrix Char -> [Pos]
 loop m = start : unfoldr generator (start, mempty)
   where
     start = maybe (error "no animal") fst $ find ((== 'S') . snd) $ M.toList m
     generator = fmap (\(n, v) -> (n, (n, v))) . uncurry (next m)
 
 -- Get next neighbor on the loop, given the set of visited vertices.
-next :: Map Node Char -> Node -> Set Node -> Maybe (Node, Set Node)
+next :: Matrix Char -> Pos -> Set Pos -> Maybe (Pos, Set Pos)
 next m node@(a, b) visited =
   case m ! node of
     '-' -> left <|> right
@@ -46,20 +48,25 @@ next m node@(a, b) visited =
     down = try ['|', 'J', 'L', 'S'] (a + 1, b)
 
 -- Partition map keys into inside and outside the loop
-partition :: Map Node Char -> (Set Node, Set Node)
+partition :: Matrix Char -> (Set Pos, Set Pos)
 partition m = foldl aux (mempty, mempty) $ M.keys m
   where
-    lp = loop m
-    lpset = S.fromList lp
     aux (outside, inside) node
-      | node `S.member` lpset = (outside, inside)
-      | any (`S.member` outside) $ neighbors node = (S.insert node outside, inside)
-      | any (`S.member` inside) $ neighbors node = (outside, S.insert node inside)
-      | node `isInside` lp = (outside, S.insert node inside)
-      | otherwise = (S.insert node outside, inside)
-    neighbors (a, b) = [(a - 1, b), (a + 1, b), (a, b - 1), (a, b + 1)]
+      | node `S.member` loopPos = (outside, inside)
+      | node `S.member` inside = (outside, inside)
+      | node `S.member` outside = (outside, inside)
+      | node `isInside` loop m = (outside, inside <> dfs [node] (S.singleton node))
+      | otherwise = (outside <> dfs [node] (S.singleton node), inside)
+    loopPos = S.fromList $ loop m
+    pos = S.fromList $ M.keys m
+    nbhd (a, b) = filter (\p -> p `S.member` pos && not (p `S.member` loopPos)) [(a - 1, b), (a + 1, b), (a, b - 1), (a, b + 1)]
+    dfs [] visited = visited
+    dfs (s : ss) visited =
+      let nbs = filter (not . (`S.member` visited)) (nbhd s)
+          visited' = S.insert s visited <> S.fromList nbs
+       in dfs (nbs ++ ss) visited'
 
-isInside :: Node -> [Node] -> Bool
+isInside :: Pos -> [Pos] -> Bool
 (a, b) `isInside` lp = abs (sum angles) > 3
   where
     offsets = [(x - a, y - b) | (x, y) <- lp]
@@ -71,13 +78,13 @@ isInside :: Node -> [Node] -> Bool
 
 part1 :: IO ()
 part1 = do
-  input <- T.getContents
-  print $ (length (loop $ parse input) + 1) `div` 2
+  m <- parse <$> T.getContents
+  print $ (length (loop m) + 1) `div` 2
 
 part2 :: IO ()
 part2 = do
-  input <- T.getContents
-  let (outside, inside) = partition (parse input)
+  m <- parse <$> T.getContents
+  let (outside, inside) = partition m
   print $ S.size inside
 
 main = getArgs >>= run
