@@ -24,10 +24,10 @@ loop :: Matrix Char -> [Pos]
 loop m = start : unfoldr generator (start, mempty)
   where
     start = maybe (error "no animal") fst $ find ((== 'S') . snd) $ M.toList m
-    generator = fmap (\(n, v) -> (n, (n, v))) . uncurry (next m)
+    generator (pos, visited) = (\(n, v) -> (n, (n, v))) . (,S.insert pos visited) <$> next m pos visited
 
 -- Get next neighbor on the loop, given the set of visited vertices.
-next :: Matrix Char -> Pos -> Set Pos -> Maybe (Pos, Set Pos)
+next :: Matrix Char -> Pos -> Set Pos -> Maybe Pos
 next m node@(a, b) visited =
   case m ! node of
     '-' -> left <|> right
@@ -39,7 +39,7 @@ next m node@(a, b) visited =
     'S' -> up <|> down <|> right <|> left
   where
     try syms n
-      | n `M.member` m && not (n `S.member` visited) && (m ! n) `elem` syms = Just (n, S.insert node visited)
+      | n `M.member` m && not (n `S.member` visited) && (m ! n) `elem` syms = Just n
       | otherwise = Nothing
     right = try ['-', '7', 'J', 'S'] (a, b + 1)
     left = try ['-', 'F', 'L', 'S'] (a, b - 1)
