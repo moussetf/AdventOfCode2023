@@ -9,8 +9,6 @@ import System.Environment (getArgs)
 -- Boulders are represented as Gaussian integers
 data Gaussian = Int :+: Int deriving (Eq, Ord)
 
-i1 = 0 :+: 1
-
 instance Num Gaussian where
   (a :+: b) + (c :+: d) = (a + c) :+: (b + d)
   (a :+: b) - (c :+: d) = (a - c) :+: (b - d)
@@ -38,6 +36,7 @@ directions chars = (north, west, south, east)
         sameColumn (a :+: _, _) (c :+: _, _) = a == c
         processColumn = snd . mapAccumL (\off (z, c) -> if c == '#' then (0, (z, 0)) else (off - i1, (z, off))) 0
     transform z = M.mapKeys (* z)
+    i1 = 0 :+: 1
 
 -- Parse the input into a matrix of chars
 parse = index . reverse . lines
@@ -52,7 +51,6 @@ period xs = (\(a, b, _) -> (a, b)) <$> find (\(a, _, _) -> a >= 0) (scanl aux (-
       | otherwise = (-1, -1, M.insert x i seen)
 
 -- Extract the set of boulder locations from a matrix of chars
-boulders :: Matrix Char -> Set Gaussian
 boulders = S.fromList . map fst . filter ((== 'O') . snd) . M.toList
 
 -- Weigh the north (upper half-plane) side of the platform
