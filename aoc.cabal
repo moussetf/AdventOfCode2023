@@ -85,3 +85,9 @@ executable aoc11
     build-depends:    base ^>=4.17.2.0, text, containers
     hs-source-dirs:   aoc11
     default-language: GHC2021
+
+executable aoc12
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, containers
+    hs-source-dirs:   aoc12
+    default-language: GHC2021
