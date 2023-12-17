@@ -1,5 +1,4 @@
 import Data.Bifunctor (first)
-import Data.Char (ord)
 import Data.Foldable
 import Data.Map (Map, (!))
 import Data.Map qualified as M
