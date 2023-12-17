@@ -21,7 +21,10 @@ parse = index . lines
 
 dimensions board = (maximum $ fst <$> M.keys board, maximum $ snd <$> M.keys board)
 
-dijkstra board start@(p, _, _) nbs = dijkstra' mempty (S.singleton (board ! p, start))
+type Node = ((Int, Int), Direction, Int)
+
+dijkstra :: Map (Int, Int) Int -> [Node] -> Map Node [Node] -> Map Node Int
+dijkstra board start nbs = dijkstra' mempty (S.fromList [(board ! p, s) | s@(p, _, _) <- start])
   where
     dijkstra' dist cand = case S.lookupMin cand of
       Nothing -> dist
@@ -58,19 +61,15 @@ part1 :: IO ()
 part1 = do
   board <- parse <$> getContents
   let (h, w) = dimensions board
-  let dist = dijkstra board ((0, 0), E, 0) (toGraph board)
+  let dist = dijkstra board [((0, 1), E, 0), ((1, 0), S, 0)] (toGraph board)
   print $ minimum $ (dist !) <$> filter (\(p, _, _) -> p == (h, w)) (M.keys dist)
 
 part2 :: IO ()
 part2 = do
   board <- parse <$> getContents
-  let g = toGraph' board
   let (h, w) = dimensions board
-  let terminal (p, _, r) = p == (h, w) && r >= 3
-  let (dist, dist') = (dijkstra board ((0, 1), E, 0) g, dijkstra board ((1, 0), S, 0) g)
-  let d1 = minimum $ (dist !) <$> filter terminal (M.keys dist)
-  let d2 = minimum $ (dist !) <$> filter terminal (M.keys dist')
-  print $ min d1 d2
+  let dist = dijkstra board [((0, 1), E, 0), ((1, 0), S, 0)] (toGraph' board)
+  print $ minimum $ (dist !) <$> filter (\(p, _, r) -> p == (h, w) && r >= 3) (M.keys dist)
 
 main = getArgs >>= run
   where
