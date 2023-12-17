@@ -1,16 +1,10 @@
 import Data.Bifunctor (first)
 import Data.Char (ord)
 import Data.Foldable
-import Data.List (sort, unfoldr)
 import Data.Map (Map, (!))
 import Data.Map qualified as M
-import Data.Maybe (maybe)
-import Data.Ord
 import Data.Set (Set)
 import Data.Set qualified as S
-import Data.Text qualified as T
-import Data.Text.IO qualified as T
-import Debug.Trace
 import System.Environment (getArgs)
 
 data Direction = N | S | W | E deriving (Eq, Show, Ord)
@@ -46,7 +40,7 @@ toGraph board = M.foldrWithKey' (\pos c g -> foldl' (addNeighbors c) g ((pos,) <
 
 component graph u = component' mempty u
   where
-    component' seen u = let seen' = S.insert u seen in foldl component' seen' $ filter (not . (`S.member` seen')) (graph ! u)
+    component' seen u = let seen' = S.insert u seen in foldl' component' seen' $ filter (not . (`S.member` seen')) (graph ! u)
 
 part1 :: IO ()
 part1 = do

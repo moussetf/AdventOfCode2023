@@ -112,6 +112,6 @@ executable aoc15
 
 executable aoc16
     main-is:          Main.hs
-    build-depends:    base ^>=4.17.2.0, text, containers
+    build-depends:    base ^>=4.17.2.0, containers
     hs-source-dirs:   aoc16
     default-language: GHC2021
