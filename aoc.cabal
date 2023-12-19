@@ -121,3 +121,9 @@ executable aoc18
     build-depends:    base ^>=4.17.2.0, text, parsec
     hs-source-dirs:   aoc18
     default-language: GHC2021
+
+executable aoc19
+    main-is:          Main.hs
+    build-depends:    base ^>=4.17.2.0, text, containers, parsec
+    hs-source-dirs:   aoc19
+    default-language: GHC2021
