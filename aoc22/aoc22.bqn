@@ -3,11 +3,11 @@
 brick←{
 	# Bricks are vectors (x0 y0 z0 x1 y1 z1 idx)
 	Idx⇐6⊸⊑
-		XMin⇐(0⊸⊑)⌊(3⊸⊑) ⋄ YMin⇐(1⊸⊑)⌊(4⊸⊑) ⋄ ZMin⇐(2⊸⊑)⌊(5⊸⊑)
-		XMax⇐(0⊸⊑)⌈(3⊸⊑) ⋄ YMax⇐(1⊸⊑)⌈(4⊸⊑) ⋄ ZMax⇐(2⊸⊑)⌈(5⊸⊑)
-		Height⇐1+ZMax-ZMin
-# The projection to the xy plane will be important
-		Footprint⇐0‿1⊸⊏ {⥊(<𝕨)+↕𝕩-𝕨-1} 3‿4⊸⊏
+	XMin⇐(0⊸⊑)⌊(3⊸⊑) ⋄ YMin⇐(1⊸⊑)⌊(4⊸⊑) ⋄ ZMin⇐(2⊸⊑)⌊(5⊸⊑)
+	XMax⇐(0⊸⊑)⌈(3⊸⊑) ⋄ YMax⇐(1⊸⊑)⌈(4⊸⊑) ⋄ ZMax⇐(2⊸⊑)⌈(5⊸⊑)
+	Height⇐1+ZMax-ZMin
+	# The projection to the xy plane will be important
+	Footprint⇐0‿1⊸⊏ {⥊(<𝕨)+↕𝕩-𝕨-1} 3‿4⊸⊏
 }
 
 # Parse input
