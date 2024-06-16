@@ -27,7 +27,7 @@ _dfs_←{
 		} start
 }
 
-•Show digraph { n 𝕊 ds:  { n≡end?0; 1+⌈´ds } } _dfs_ ¯∞ start
+•Show digraph { n 𝕊 ds: { n≡end?0; 1+⌈´ds } } _dfs_ ¯∞ start
 
 # For part 2, create a simplfied graph by contracting the bare paths
 sgraph‿sdist←{
