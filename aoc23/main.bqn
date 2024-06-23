@@ -19,10 +19,12 @@ _dfs_←{
 	graph F _dfs_ Init start:
 		v←1¨graph ⋄ data←Init¨↕≢graph
 		{
-			v 0˙⌾(𝕩⊸⊑)↩
-			nbs←𝕩⊑graph
-			𝕊¨ (⊑⟜v)⊸/nbs
-			𝕩 ⊑ data (𝕩 F nbs⊑data)˙⌾(𝕩⊸⊑)↩
+			𝕩⊑v?
+				v 0˙⌾(𝕩⊸⊑)↩
+				nbs←𝕩⊑graph
+				𝕊¨ nbs
+				𝕩 ⊑ data (𝕩 F nbs⊑data)˙⌾(𝕩⊸⊑)↩;
+			𝕩⊑data
 		} start
 }
 
@@ -33,7 +35,7 @@ sgraph‿sdist←{
 	g←⟨⟩¨graph ⋄ d←⟨⟩¨graph
 	digraph {
 		n 𝕊 data: data (≢¨⟜¯∞)⊸/↩ ⋄  {
-			2≡≠n⊑graph? (+⟜1)⌾⊑⊑data;
+			2≡≠n⊑graph?(+⟜1)⌾⊑⊑data;
 			nbs←1⊸⊑¨data
 			dists←⊑¨data
 			g (∾⟜nbs)⌾(n⊸⊑)↩ ⋄ d (∾⟜dists)⌾(n⊸⊑)↩
@@ -48,15 +50,15 @@ sgraph‿sdist←{
 	v←1¨input
 	best←¯∞
 	0 {
-		l Search n:
-			n≡start? best l⊸⌈↩;
-		l Search n:
+		l Search n: n≡start?
+			best l⊸⌈↩;
+		l Search n: 𝕩⊑v?
 			v 0˙⌾(n⊸⊑)↩
 			cds←n⊑sgraph
 			dist←n⊑sdist
-			mask←cds⊑v
-			(l+mask/dist) Search¨ mask/cds
-			v 1˙⌾(n⊸⊑)↩
+			(l+dist) Search¨ cds
+			v 1˙⌾(n⊸⊑)↩;
+		@
 	} end
 	best
 }
