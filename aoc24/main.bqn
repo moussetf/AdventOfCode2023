@@ -31,7 +31,7 @@ Solve←{ 𝕨 𝕊 𝕩: p‿l‿u←LU 𝕩 ⋄ b←p⊏𝕨 ⋄ (b Sub (⌽�
 	Crossing←{ p‿v 𝕊 q‿w: vt←Rot90 v ⋄ wt←Rot90 w ⋄ (+˝˘ (p×vt)≍q×wt) Solve⎊∞‿∞ vt≍wt }
 	IsFuture←{ p‿v 𝕊 q: ∧´ 0≤(q-p)÷v }
 	In←{⟨min,max⟩ 𝕊 𝕩: ∧´(min<𝕩)∧(𝕩≤max) }
-  ta←("sample"≡⊑•args)◶⟨200000000000000‿400000000000000,7‿27⟩ @
+	ta←("sample"≡⊑•args)◶⟨200000000000000‿400000000000000,7‿27⟩ @
 	hs2d←(2↑˘pos)⋈˘(2↑˘vel)
 	cs←Crossing⌜˜<˘ hs2d
 	ds←(⍉∧⊢) hs2d⊸(((<⊣)IsFuture¨⊢)˘)cs
