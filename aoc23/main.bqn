@@ -1,5 +1,4 @@
 !(1≡≠) •args
-
 input←>•FLines ⊑•args
 
 graph‿digraph←{
