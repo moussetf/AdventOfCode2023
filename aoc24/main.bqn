@@ -7,24 +7,17 @@ vel←3↓˘input
 
 # LU decomposition
 Elim←{
-	𝕨 𝕊 ⟨p,l,u⟩: 0≡𝕨‿𝕨⊑u? ⟨p,l∾˘⎊⊢(1˙⌾(𝕨⊸⊑)0˙˘u),u⟩;
-	𝕨 𝕊 ⟨p,l,u⟩: v←(𝕨↓𝕨⊑˘u)÷𝕨‿𝕨⊑u ⋄ ⟨p,l∾˘⎊⊢(𝕨⥊0)∾v,u-((𝕨⥊0)∾»«v)×⌜𝕨⊏u⟩
+	𝕨 𝕊 p‿l‿u: 0≡𝕨‿𝕨⊑u? ⟨p,l∾˘⎊⊢(1˙⌾(𝕨⊸⊑)0˙˘u),u⟩;
+	𝕨 𝕊 p‿l‿u: v←(𝕨↓𝕨⊑˘u)÷𝕨‿𝕨⊑u ⋄ ⟨p,l∾˘⎊⊢(𝕨⥊0)∾v,u-((𝕨⥊0)∾»«v)×⌜𝕨⊏u⟩
 }
-Perm←{
-	𝕨 𝕊 ⟨p,l,u⟩: 0≡𝕨‿𝕨⊑u?
-		q←(↕𝕨)∾𝕨+⍒| 𝕨↓𝕨 ⊑˘u
-		m←q⊏u
-		⟨q⊏p,q⊏⎊⊢l,m⟩;
-	𝕩
-}
+Perm←{ 𝕨 𝕊 p‿l‿u: 0≡𝕨‿𝕨⊑u? q←(↕𝕨)∾𝕨+⍒| 𝕨↓𝕨 ⊑˘u ⋄ ⟨q⊏p,q⊏⎊⊢l,q⊏u⟩; 𝕩 }
 LU←{ ⟨↕≠𝕩,⟨⟩,𝕩⟩ (⊣ Elim Perm)´ ⌽↕≠𝕩 }
 
 # Solve a non-singular linear system
 Sub←{
-	b 𝕊 idx‿l:
-		(0⥊˜≠b) {
-			i 𝕊 𝕩: "Singular matrix"!0≢(i‿i)⊑l ⋄ (((i⊑b)-+´𝕩×i⊏l)÷((i‿i)⊑l))˙⌾(i⊸⊑) 𝕩
-		}´ idx
+	b 𝕊 idx‿l: (0⥊˜≠b) {
+		i 𝕊 𝕩: "Singular matrix"!0≢i‿i⊑l ⋄ (((i⊑b)-+´𝕩×i⊏l)÷(i‿i⊑l))˙⌾(i⊸⊑) 𝕩
+	}´ idx
 }
 Solve←{ 𝕨 𝕊 𝕩: p‿l‿u←LU 𝕩 ⋄ b←p⊏𝕨 ⋄ (b Sub (⌽↕≠𝕨)‿l) Sub (↕≠𝕨)‿u }
 
