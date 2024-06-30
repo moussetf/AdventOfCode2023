@@ -25,6 +25,6 @@ n←graph.Count@
 			ru←Find u ⋄ rv←Find v
 			{ ru≢rv? ru Union rv ⋄ n-1; 𝕤⋄n } @
 	}´ (•rand.Deal≠)⊸⊏ edges
-	cut← 2÷˜≠ (⊢≢⌽)¨⊸/ Find¨¨ edges
+	cut←2÷˜≠ (⊢≢⌽)¨⊸/ Find¨¨ edges
 	{ cut≡3? 𝕤 ⋄ •Show  ×´≠¨⊐⊸⊔ Reprs@ ⋄ 0; 1 } @
 } •_while_ ⊢ 1
