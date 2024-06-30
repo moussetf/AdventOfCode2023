@@ -66,15 +66,13 @@ buttonPress graph states = propagate graph states [] (Seq.singleton (0, "broadca
                 Nothing -> propagate graph state trace' ns
                 (Just p) -> propagate graph (M.insert n p state) trace' (ns >< ((p,) <$> neighbours))
 
-part1 :: IO ()
-part1 = do
-  graph <- fromRight (error "no parse") . parse parser "" <$> T.getContents
+part1 :: Graph -> IO ()
+part1 graph = do
   let trace = fst $ iterate (\(t, s) -> let (t', s') = buttonPress graph s in (t ++ t', s')) ([], mempty) !! 1000
   print $ length (filter ((== 1) . fst) trace) * length (filter ((== 0) . fst) trace)
 
-part2 :: IO ()
-part2 = do
-  graph <- fromRight (error "no parse") . parse parser "" <$> T.getContents
+part2 :: Graph -> IO ()
+part2 graph = do
   -- print $ map (Seq.length . snd) $ M.toList (outVertices graph)
   -- print $ map (Seq.length . snd) $ M.toList (inVertices graph)
   -- let traces = fst <$> iterate (\(_, s) -> buttonPress graph s) ([], mempty)
@@ -82,8 +80,7 @@ part2 = do
   let states = snd <$> iterate (\(_, s) -> buttonPress graph s) ([], mempty)
   traverse_ print $ take 64 states
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  graph <- fromRight (error "no parse") . parse parser "" <$> T.getContents
+  part1 graph
+  part2 graph
