@@ -13,7 +13,7 @@ brick←{
 # Parse input
 Split←((1-˜((1++`)∧¬))∘∊˜)⊔⊢
 ParseInt←+´(10⋆(↕≠))×(⌽(-⟜'0'))
-bricks←∾¨⟜(↕≠) (ParseInt¨ 6⊸↑∘",~"⊸Split)¨ •FLines⊑•args
+bricks←∾¨⟜(↕≠) (ParseInt¨ 6⊸↑∘",~"⊸Split)¨ •FLines ⊑⎊"sample" •args
 
 # Build a matrix with m(ij)=1 iff brick i supports brick j
 mX←1 + ⌈´brick.XMax¨ bricks

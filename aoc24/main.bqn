@@ -1,7 +1,7 @@
 !(1≡≠) •args
 Split←(≢⟜⟨⟩)¨⊸/ ((1-˜(1++`)∧¬)∊˜)⊔⊢
 ParseInt←(1+¯2×('-'=⊑)) × (+´(10⋆(↕≠))×(⌽(-⟜'0')))∘((≠⟜'-')⊸/)
-input←> ParseInt¨∘(", @"⊸Split)¨ •FLines ⊑•args
+input←> ParseInt¨∘(", @"⊸Split)¨ •FLines ⊑⎊"sample" •args
 pos←3↑˘input
 vel←3↓˘input
 

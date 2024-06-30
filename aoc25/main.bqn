@@ -10,7 +10,7 @@ UnionFind←{
 	}
 }
 
-input←(" :"⊸Split)¨ •FLines (⊑)⎊"input" •args
+input←(" :"⊸Split)¨ •FLines ⊑⎊"sample" •args
 edges←∾((<⊑)⋈¨1⊸↓)¨ input
 vertices←⍷∾input
 

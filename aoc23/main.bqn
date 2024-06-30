@@ -1,5 +1,5 @@
 !(1≡≠) •args
-input←>•FLines ⊑•args
+input←>•FLines ⊑⎊"sample" •args
 
 graph‿digraph←{
 	F←»∾¨«∾¨»˘∾¨«˘ # NSWE shifts
