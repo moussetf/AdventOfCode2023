@@ -1,10 +1,9 @@
 # Circular buffer for BFS
-Clear‿Push‿Pop‿Size←{
+Clear‿Push‿Pop←{
 	n←10_000_000 ⋄ i‿j←0‿0 ⋄ buf←n⥊@
-		Clear⇐{𝕤 ⋄ j↩i}
+	Clear⇐{𝕤 ⋄ j↩i}
 	Push⇐{buf 𝕩˙⌾(i⊸⊑)↩ ⋄ i↩n|i+1 ⋄ "Full buffer"!i>j ⋄ i-j}
 	Pop⇐{i=j?𝕩; r←j⊑buf ⋄ j↩n|j+1 ⋄ r}
-	Size⇐{𝕤⋄n|i-j}
 }
 
 # Compute distances from the 'S'
