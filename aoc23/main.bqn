@@ -1,4 +1,3 @@
-!(1≡≠) •args
 input←>•FLines ⊑⎊"sample" •args
 
 graph‿digraph←{
@@ -30,7 +29,7 @@ _dfs_←{
 
 •Show digraph { n 𝕊 ds: { n≡end?0; 1+⌈´ds } } _dfs_ ¯∞ start
 
-# For part 2, create a simplfied graph by contracting the bare paths
+# For part 2, create a simplified graph by contracting the bare paths
 sgraph‿sdist←{
 	g←⟨⟩¨graph ⋄ d←⟨⟩¨graph
 	digraph {

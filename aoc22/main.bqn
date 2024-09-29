@@ -1,5 +1,3 @@
-!(1≡≠) •args
-
 brick←{
 	# Bricks are vectors (x0 y0 z0 x1 y1 z1 idx)
 	Idx⇐6⊸⊑
