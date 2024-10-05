@@ -52,16 +52,12 @@ adjacents symbols numbers = group $ concatMap process numbers
           [(i + di, j + len) | di <- [-1 .. 1]]
         ]
 
-part1 :: IO ()
-part1 = do
-  input <- T.getContents
+part1 input = do
   let numbers = fromRight (error "no parse") $ parse numberParser "" input
   let symbols = fromRight (error "no parse") $ parse symbolParser "" input
   print $ sum $ value <$> nubOrd (concat $ adjacents symbols numbers)
 
-part2 :: IO ()
-part2 = do
-  input <- T.getContents
+part2 input = do
   let numbers = fromRight (error "no parse") $ parse numberParser "" input
   let gears = filter isGear $ fromRight (error "no parse") $ parse symbolParser "" input
   print $ sum $ product . map value <$> filter ((== 2) . length) (adjacents gears numbers)
@@ -69,8 +65,7 @@ part2 = do
     isGear (Gear _) = True
     isGear (Other _) = False
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  input <- T.getContents
+  part1 input
+  part2 input

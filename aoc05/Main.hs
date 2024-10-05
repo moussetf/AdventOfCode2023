@@ -40,13 +40,11 @@ transform seeds maps = transform' sortedSeeds sortedMaps []
       | to m <= from s = transform' seeds ms done
       | otherwise = let (moved, pending) = move s m dst in transform' (pending ++ ss) maps (moved ++ done)
 
-part partNum = do
-  input <- T.getContents
+part partNum input =
   let (seeds, transformations) = fromRight (error "no parse") $ parse (parser partNum) "" input
-  print $ minimum $ from <$> foldl transform seeds transformations
+   in print $ minimum $ from <$> foldl transform seeds transformations
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part 1
-    run ["part2"] = part 2
-    run _ = error "Missing argument"
+main = do
+  input <- T.getContents
+  part 1 input
+  part 2 input

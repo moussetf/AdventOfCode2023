@@ -27,11 +27,9 @@ parser = Game <$> index <*> rounds
       spaces
       return result
 
-part1 :: IO ()
-part1 = do
-  games <- fmap (fromRight (error "no parse") . parse parser "") <$> many T.getLine
-  print $ sum $ value <$> games
+part1 lines = print $ sum $ value <$> games
   where
+    games = fromRight (error "no parse") . parse parser "" <$> lines
     value (Game index rounds)
       | all (all isPossible) rounds = index
       | otherwise = 0
@@ -39,19 +37,16 @@ part1 = do
     isPossible (Green n) = n <= 13
     isPossible (Blue n) = n <= 14
 
-part2 :: IO ()
-part2 = do
-  games <- fmap (fromRight (error "no parse") . parse parser "") <$> many T.getLine
-  print $ sum $ power <$> games
+part2 lines = print $ sum $ power <$> games
   where
+    games = fromRight (error "no parse") . parse parser "" <$> lines
     power (Game _ rounds) = let (r, g, b) = smallestCounts (concat rounds) in r * g * b
     smallestCounts = foldl aux (0, 0, 0)
     aux (r, g, b) (Red n) = (max r n, g, b)
     aux (r, g, b) (Green n) = (r, max g n, b)
     aux (r, g, b) (Blue n) = (r, g, max b n)
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  lines <- many T.getLine
+  part1 lines
+  part2 lines

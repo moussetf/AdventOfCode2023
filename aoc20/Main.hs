@@ -87,5 +87,6 @@ part2 graph = do
 
 main = do
   graph <- fromRight (error "no parse") . parse parser "" <$> T.getContents
-  part1 graph
-  part2 graph
+  -- part1 graph
+  -- part2 graph
+  print ""

@@ -47,13 +47,11 @@ parser withJoker = (,) <$> hand <* spaces <*> bid <* spaces
         ]
     bid = read <$> some digit
 
-part partNum = do
-  lines <- many T.getLine
+part partNum lines =
   let handsAndBids = fromRight (error "no parse") . parse (parser $ partNum == 2) "" <$> lines
-  print $ sum $ zipWith (*) [1 ..] (map snd (sortBy (compare `on` fst) handsAndBids))
+   in print $ sum $ zipWith (*) [1 ..] (map snd (sortBy (compare `on` fst) handsAndBids))
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part 1
-    run ["part2"] = part 2
-    run _ = error "Missing argument"
+main = do
+  lines <- many T.getLine
+  part 1 lines
+  part 2 lines

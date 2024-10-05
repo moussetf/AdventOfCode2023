@@ -38,18 +38,7 @@ focusingStrength = sum . map fs . M.toList
       let lenses' = snd <$> sort (M.elems lenses)
        in (1 + boxnum) * sum (zipWith (*) [1 ..] lenses')
 
-part1 :: IO ()
-part1 = do
+main = do
   steps <- T.split (== ',') <$> T.getLine
   print $ sum $ hash <$> steps
-
-part2 :: IO ()
-part2 = do
-  steps <- map parseStep . T.split (== ',') <$> T.getLine
-  print $ focusingStrength $ foldl (flip process) mempty steps
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+  print $ focusingStrength $ foldl (flip process) mempty (parseStep <$> steps)

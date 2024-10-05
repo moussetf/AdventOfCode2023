@@ -40,23 +40,12 @@ expansions (Pattern rows cols) = [Pattern (flip' bit rows) (flip' (swap bit) col
     bits = [(a, b) | a <- [0 .. length rows], b <- [0 .. length cols]]
     flip' (i, b) xs = (\(ix, x) -> if ix == i then x else (2 ^ b) `xor` x) <$> zip [0 ..] xs
 
-part1 :: IO ()
-part1 = do
+main = do
   patterns <- map parse . T.splitOn "\n\n" <$> T.getContents
   print $ sum $ head . values . refls <$> patterns
-
-part2 :: IO ()
-part2 = do
-  patterns <- map parse . T.splitOn "\n\n" <$> T.getContents
   print $ sum $ altvalue <$> patterns
   where
     altvalue pattern =
       let [x] = values (refls pattern)
           modified = find (/= x) . values . refls <$> expansions pattern
        in head $ catMaybes modified
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

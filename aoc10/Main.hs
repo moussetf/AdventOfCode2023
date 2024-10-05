@@ -75,19 +75,8 @@ isInside :: Pos -> [Pos] -> Bool
     (a, b) .* (c, d) = fromIntegral $ a * c + b * d
     norm (a, b) = sqrt $ fromIntegral $ a * a + b * b
 
-part1 :: IO ()
-part1 = do
+main = do
   m <- parse <$> T.getContents
   print $ (length (loop m) + 1) `div` 2
-
-part2 :: IO ()
-part2 = do
-  m <- parse <$> T.getContents
   let (outside, inside) = partition m
-  print $ S.size inside
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+   in print $ S.size inside

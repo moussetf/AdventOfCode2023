@@ -57,22 +57,10 @@ toGraph' board = M.fromList $ map (\u -> (u, neighbors u)) nodes
     straight d r = [(d, r + 1) | r < 9]
     aux p = filter (\(p, _, _) -> p `M.member` board) . map (\(d, r) -> (p ~> d, d, r))
 
-part1 :: IO ()
-part1 = do
+main = do
   board <- parse <$> getContents
   let (h, w) = dimensions board
   let dist = dijkstra board [((0, 1), E, 0), ((1, 0), S, 0)] (toGraph board)
   print $ minimum $ (dist !) <$> filter (\(p, _, _) -> p == (h, w)) (M.keys dist)
-
-part2 :: IO ()
-part2 = do
-  board <- parse <$> getContents
-  let (h, w) = dimensions board
-  let dist = dijkstra board [((0, 1), E, 0), ((1, 0), S, 0)] (toGraph' board)
-  print $ minimum $ (dist !) <$> filter (\(p, _, r) -> p == (h, w) && r >= 3) (M.keys dist)
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+  let dist' = dijkstra board [((0, 1), E, 0), ((1, 0), S, 0)] (toGraph' board)
+  print $ minimum $ (dist' !) <$> filter (\(p, _, r) -> p == (h, w) && r >= 3) (M.keys dist')

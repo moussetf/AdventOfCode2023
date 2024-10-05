@@ -32,13 +32,7 @@ area ps = area + border
     border = 1 + sum (zipWith dist ps (tail ps)) `div` 2
     dist (a, b) (c, d) = abs (a - c) + abs (b - d)
 
-part :: Int -> IO ()
-part partNum = do
-  polygon <- fromRight (error "no parse") . parse (parser (partNum == 1)) "" <$> T.getContents
-  print $ area polygon
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part 1
-    run ["part2"] = part 2
-    run _ = error "Missing argument"
+main = do
+  input <- T.getContents
+  print $ area (fromRight (error "no parse") . parse (parser True) "" $ input)
+  print $ area (fromRight (error "no parse") . parse (parser False) "" $ input)

@@ -63,22 +63,18 @@ roll (Direction offsets disp) bldrs = foldl (\bldrs bld -> place bldrs (bld + (o
       | bld `S.member` bldrs = place bldrs (bld + disp)
       | otherwise = S.insert bld bldrs
 
-part1 :: IO ()
-part1 = do
-  chars <- parse <$> getContents
+part1 chars =
   let (n, w, s, e) = directions chars
-  print $ weight $ roll n $ boulders chars
+   in print $ weight $ roll n $ boulders chars
 
-part2 :: IO ()
-part2 = do
-  chars <- parse <$> getContents
-  let (n, w, s, e) = directions chars
-  let sequence = iterate (roll e . roll s . roll w . roll n) $ boulders chars
-  let Just (a, b) = period sequence
+part2 chars =
   print $ weight $ sequence !! (a + ((1000000000 - a) `mod` b))
-
-main = getArgs >>= run
   where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+    (n, w, s, e) = directions chars
+    sequence = iterate (roll e . roll s . roll w . roll n) $ boulders chars
+    Just (a, b) = period sequence
+
+main = do
+  chars <- parse <$> getContents
+  part1 chars
+  part2 chars

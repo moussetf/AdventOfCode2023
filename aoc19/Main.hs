@@ -38,7 +38,7 @@ split dim n v = (below, above)
 data Rule = Less Int Int T.Text | Greater Int Int T.Text | Goto T.Text
 
 parser :: Parser (Map T.Text [Rule], [Part])
-parser = (,) <$> (M.fromList <$> some (workflow <* spaces)) <*> some (part <* spaces)
+parser = ((,) . M.fromList <$> some (workflow <* spaces)) <*> some (part <* spaces)
   where
     part = bracketed ((letter *> char '=' *> int) `sepBy` char ',')
     workflow = (,) <$> wfname <*> bracketed (rule `sepBy` char ',')
@@ -68,18 +68,7 @@ accepted s rules = accepted' s (rules ! s)
               (_, v') = split dim n $ accepted' s rs
            in v ++ v'
 
-part1 :: IO ()
-part1 = do
+main = do
   (rules, parts) <- fromRight (error "no parse") . parse parser "" <$> T.getContents
   print $ sum $ concat $ filter (`inside` accepted "in" rules) parts
-
-part2 :: IO ()
-part2 = do
-  (rules, _) <- fromRight (error "no parse") . parse parser "" <$> T.getContents
   print $ volume 4 $ accepted "in" rules
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

@@ -20,6 +20,7 @@ Sub←{
 }
 Solve←{ 𝕨 𝕊 𝕩: p‿l‿u←LU 𝕩 ⋄ b←p⊏𝕨 ⋄ (b Sub (⌽↕≠𝕨)‿l) Sub (↕≠𝕨)‿u }
 
+# Part 1
 •Show {
 	Rot90←1‿¯1×⌽
 	Crossing←{ p‿v 𝕊 q‿w: vt←Rot90 v ⋄ wt←Rot90 w ⋄ (+˝˘ (p×vt)≍q×wt) Solve⎊∞‿∞ vt≍wt }
@@ -32,6 +33,7 @@ Solve←{ 𝕨 𝕊 𝕩: p‿l‿u←LU 𝕩 ⋄ b←p⊏𝕨 ⋄ (b Sub (⌽�
 	2 ÷˜≠ ta⊸In¨⊸/ ds/○⥊cs
 }
 
+# Part 2
 •Show {
 	# The idea is that three hailstones can fully determine the solution. The
 	# appropriate system of quadratic equations for the 9-element vector p∾v∾t

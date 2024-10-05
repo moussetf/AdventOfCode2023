@@ -24,14 +24,19 @@ supportMat ← 2⊑ ⟨mX‿mY⥊0,mX‿mY⥊¯1,(≠bricks)‿(≠bricks)⥊0�
 		⟨ (zmax + brick.Height b)¨⌾(fp⊸⊑) heights ⋄ idx¨⌾(fp⊸⊑) highest ⋄ 1¨⌾(supp⊸⊑)supportMat ⟩
 }´(⍒brick.ZMin¨)⊸⊏ bricks
 
+# Part1
 # A brick is a disintegrable iff every brick it supports is also supported by
 # least one other brick, that is, twice the row in the matrix is at most the
-# sum of the all the rows:
+# sum of the all the rows.
 •Show +´(2⊸×)⊸(∧´∘≤⎉1‿∞)⟜(+˝) supportMat
-# The "super" of a set of blocks is the set of blocks supported wholly
-# on blocks in this set.
-Super←(<˘⍉supportMat)(∧´≤)¨<
-NumFalling ← (¯1+(+´)) ∘ (1⊸⊑) ∘ ({
+
+# Part2
+•Show {
+	# The "super" of a set of blocks is the set of blocks supported wholly
+	# on blocks in this set.
+	Super←(<˘⍉supportMat)(∧´≤)¨<
+	NumFalling ← (¯1+(+´)) ∘ (1⊸⊑) ∘ ({
 		𝕊 ⟨·, set⟩: new ← (∨˝ set/supportMat) ∧ Super set ⋄ ⟨∨´new>set, set∨new⟩
 		} •_while_ ⊑) ∘ {⟨1,𝕩=↕≠bricks⟩}
-•Show +´ NumFalling¨ ↕≠bricks
+	+´ NumFalling¨ ↕≠bricks
+}

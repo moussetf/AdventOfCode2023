@@ -41,21 +41,10 @@ component graph u = component' mempty u
   where
     component' seen u = let seen' = S.insert u seen in foldl' component' seen' $ filter (not . (`S.member` seen')) (graph ! u)
 
-part1 :: IO ()
-part1 = do
+main = do
   board <- parse <$> getContents
   print $ S.size $ S.map fst $ component (toGraph board) ((0, 0), E)
-
-part2 :: IO ()
-part2 = do
-  board <- parse <$> getContents
   let h = maximum $ fst <$> M.keys board
   let w = maximum $ snd <$> M.keys board
   let border = concat $ [[((0, n), S), ((h, n), N)] | n <- [0 .. w]] ++ [[((m, 0), E), ((m, w), W)] | m <- [0 .. h]]
   print $ maximum $ S.size . S.map fst . component (toGraph board) <$> border
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

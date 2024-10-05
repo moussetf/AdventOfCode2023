@@ -16,18 +16,7 @@ extrapolate ss
   | all (== 0) ss = 0
   | otherwise = let delta = extrapolate (diff ss) in last ss + delta
 
-part1 :: IO ()
-part1 = do
+main = do
   lines <- many T.getLine
   print $ sum $ extrapolate . parse <$> lines
-
-part2 :: IO ()
-part2 = do
-  lines <- many T.getLine
   print $ sum $ extrapolate . reverse . parse <$> lines
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

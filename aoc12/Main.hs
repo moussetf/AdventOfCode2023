@@ -1,3 +1,4 @@
+import Control.Applicative
 import Data.List (intercalate)
 import Data.Map ((!))
 import Data.Map qualified as M
@@ -33,20 +34,9 @@ arra ss ns = fst $ arraMemo mempty (ss ++ ".") ns
 parse :: T.Text -> (String, [Int])
 parse line = let [a, b] = T.split (== ' ') line in (T.unpack a, read . T.unpack <$> T.split (== ',') b)
 
-part1 :: IO ()
-part1 = do
-  ls <- T.lines <$> T.getContents
-  print $ sum $ uncurry arra . parse <$> ls
-
-part2 :: IO ()
-part2 = do
-  ls <- T.lines <$> T.getContents
-  print $ sum $ uncurry arra . expand . parse <$> ls
+main = do
+  lines <- fmap parse <$> many T.getLine
+  print $ sum $ uncurry arra <$> lines
+  print $ sum $ uncurry arra . expand <$> lines
   where
     expand (a, b) = (intercalate "?" $ replicate 5 a, concat $ replicate 5 b)
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

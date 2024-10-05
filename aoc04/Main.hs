@@ -24,28 +24,22 @@ parser = Card <$> (title *> numbers <* char '|' <* spaces) <*> numbers
 wins :: Card -> Int
 wins Card {winning, numbers} = let nums = S.fromList numbers in length $ filter (`S.member` nums) winning
 
-part1 :: IO ()
-part1 = do
-  lines <- many T.getLine
-  print $ sum $ pow . wins . fromRight (error "no parse") . parse parser "" <$> lines
+part1 lines = print $ sum $ pow . wins . fromRight (error "no parse") . parse parser "" <$> lines
   where
     pow x = if x <= 0 then 0 else 2 ^ (x - 1)
 
-part2 :: IO ()
-part2 = do
-  lines <- many T.getLine
-  let cards = fromRight (error "no parse") . parse parser "" <$> lines
-  let indices = [1 .. length cards]
-  let counts = M.fromList ((,1) <$> indices)
+part2 lines = do
   print $ sum $ M.elems $ foldl (scratch $ graph cards) counts indices
   where
+    cards = fromRight (error "no parse") . parse parser "" <$> lines
+    indices = [1 .. length cards]
+    counts = M.fromList ((,1) <$> indices)
     graph cards = M.fromList [(idx, [idx + 1 .. idx + wins c]) | (idx, c) <- zip [1 ..] cards]
-    scratch g counts idx = foldl (flip (M.alter (Just . maybe count (+ count)))) counts (g ! idx)
-      where
-        count = counts ! idx
+    scratch g counts idx =
+      let count = counts ! idx
+       in foldl (flip (M.alter (Just . maybe count (+ count)))) counts (g ! idx)
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  lines <- many T.getLine
+  part1 lines
+  part2 lines

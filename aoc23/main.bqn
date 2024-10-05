@@ -27,6 +27,7 @@ _dfs_←{
 		} start
 }
 
+# Part 1
 •Show digraph { n 𝕊 ds: { n≡end?0; 1+⌈´ds } } _dfs_ ¯∞ start
 
 # For part 2, create a simplified graph by contracting the bare paths
@@ -45,6 +46,7 @@ sgraph‿sdist←{
 	g‿d
 }
 
+# Part 2
 •Show {
 	v←1¨input
 	best←¯∞

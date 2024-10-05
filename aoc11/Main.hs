@@ -39,20 +39,8 @@ dist scale rows cols (a, b) (c, d) = (dr + abs (a - c)) + (dc + abs (b - d))
 transpose :: Matrix a -> Matrix a
 transpose = M.mapKeys (\(a, b) -> (b, a))
 
-part1 :: IO ()
-part1 = do
+main = do
   m <- parse <$> T.getContents
   let (gals, rows, cols) = (galaxies m, emptyRows m, emptyRows $ transpose m)
   print $ sum (dist 2 rows cols <$> gals <*> gals) `div` 2
-
-part2 :: IO ()
-part2 = do
-  m <- parse <$> T.getContents
-  let (gals, rows, cols) = (galaxies m, emptyRows m, emptyRows $ transpose m)
   print $ sum (dist 1000000 rows cols <$> gals <*> gals) `div` 2
-
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"

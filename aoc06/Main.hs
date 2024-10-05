@@ -31,20 +31,15 @@ solve t r
     a = floor $ (fromIntegral t - sqrt (fromIntegral d)) / 2 + 1
     b = ceiling $ (fromIntegral t + sqrt (fromIntegral d)) / 2 - 1
 
-part1 :: IO ()
-part1 = do
-  input <- T.getContents
+part1 input =
   let races = fromRight (error "no parse") $ parse parser "" input
-  print $ product $ uncurry solve <$> races
+   in print $ product $ uncurry solve <$> races
 
-part2 :: IO ()
-part2 = do
-  input <- T.getContents
+part2 input =
   let race = fromRight (error "no parse") $ parse parser' "" input
-  print $ uncurry solve race
+   in print $ uncurry solve race
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  input <- T.getContents
+  part1 input
+  part2 input

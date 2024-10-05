@@ -30,22 +30,17 @@ period graph dirs start = length $ takeWhile ((/= 'Z') . T.last) $ scanl (move g
     move graph node L = fst (graph ! node)
     move graph node R = snd (graph ! node)
 
-part1 :: IO ()
-part1 = do
-  input <- T.getContents
+part1 input =
   let (dirs, graph) = fromRight (error "no parse") $ parse parser "" input
-  print $ period graph dirs "AAA"
+   in print $ period graph dirs "AAA"
 
-part2 :: IO ()
-part2 = do
-  input <- T.getContents
+part2 input =
   let (dirs, graph) = fromRight (error "no parse") $ parse parser "" input
-  print $ foldl lcm 1 $ period graph dirs <$> startNodes graph
+   in print $ foldl lcm 1 $ period graph dirs <$> startNodes graph
   where
     startNodes = filter ((== 'A') . T.last) . M.keys
 
-main = getArgs >>= run
-  where
-    run ["part1"] = part1
-    run ["part2"] = part2
-    run _ = error "Missing argument"
+main = do
+  input <- T.getContents
+  part1 input
+  part2 input
