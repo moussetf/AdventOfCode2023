@@ -4,15 +4,12 @@ https://adventofcode.com/
 
 Solutions in Haskell. Some in BQN.
 
-Run for example with
+Run with (e.g.)
 ```
 cabal run aoc01 < aoc01/input
 ```
-for the Haskell solutions and
+for the Haskell solutions and (e.g.)
 ```
 bqn aoc22/main.bqn input
 ```
 for BQN ones.
-
-Still missing:
-- 20 part 2
